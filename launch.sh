@@ -7,11 +7,11 @@ set -o errexit
 
 readonly FCGIPROGRAM="/usr/bin/fcgiwrap"
 #readonly GIT_PROJECT_ROOT="/etc/local-git-http"
-#readonly GIT_HTTP_EXPORT_ALL="true"
+readonly GIT_HTTP_EXPORT_ALL="true"
 readonly GIT_USER="git"
 readonly GIT_GROUP="git"
 readonly FCGISOCKET="/var/run/fcgiwrap.socket"
-#readonly SOCKUSERID="$USERID"
+readonly SOCKUSERID="$USERID"
 readonly USERID="nginx"
 
 

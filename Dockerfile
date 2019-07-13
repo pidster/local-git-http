@@ -8,7 +8,7 @@ RUN set -x \
  && mkdir -p /repos/test \
  && cd /repos/test \
  && git init \
- && adduser git -h /repos -D \
+ && adduser git git \
  && adduser nginx git \
  && git config --system http.receivepack true \
  && git config --system http.uploadpack true \
