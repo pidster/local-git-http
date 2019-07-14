@@ -9,16 +9,16 @@ server {
   }
 
   location ~ ^.*\.git/objects/([0-9a-f]+/[0-9a-f]+|pack/pack-[0-9a-f]+.(pack|idx))$ {
-    root            /etc/local-git-http;
+    root            /etc/nginx/sites;
   }
 
   location ~ ^.*\.git/(HEAD|info/refs|objects/info/.*|git-(upload|receive)-pack)$ {
     include         fastcgi_params;
-    fastcgi_param   SCRIPT_FILENAME /usr/libexec/git-core/git-http-backend;
     fastcgi_param   GIT_HTTP_EXPORT_ALL "true";
-    fastcgi_param   GIT_PROJECT_ROOT /etc/local-git-http;
+    fastcgi_param   GIT_PROJECT_ROOT /etc/nginx/sites;
     fastcgi_param   PATH_INFO $uri;
     fastcgi_param   REMOTE_USER $remote_user;
+    fastcgi_param   SCRIPT_FILENAME /usr/libexec/git-core/git-http-backend;
     fastcgi_pass    unix:/var/run/fcgiwrap.socket;
   }
 

@@ -4,16 +4,20 @@ RUN set -x \
  && apk --update upgrade \
  && apk --no-cache add git git-daemon bash fcgiwrap spawn-fcgi \
  && mkdir -p /etc/nginx \
- && mkdir -p /etc/local-git-http \
+ && mkdir -p /etc/nginx/sites \
  && mkdir -p /repos/test \
+ && addgroup -S git \
+ && adduser -S git -G git \
  && cd /repos/test \
  && git init \
- && adduser git git \
- && adduser nginx git \
  && git config --system http.receivepack true \
  && git config --system http.uploadpack true \
  && git config --system user.email "gitserver@localhost" \
- && git config --system user.name "Git Server"
+ && git config --system user.name "Git Server" \
+ && cp /etc/gitconfig /home/git/.gitconfig \
+ && chown git:git /home/git/.gitconfig
+
+#  && adduser -S nginx -G git \
 
 COPY etc /etc/nginx
 COPY launch.sh /usr/bin/launch

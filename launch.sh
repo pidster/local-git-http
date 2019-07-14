@@ -4,6 +4,12 @@
 
 set -o errexit
 
+echo "-----------------------------------------------------------------------"
+
+env
+
+echo "-----------------------------------------------------------------------"
+
 
 readonly FCGIPROGRAM="/usr/bin/fcgiwrap"
 #readonly GIT_PROJECT_ROOT="/etc/local-git-http"
@@ -25,10 +31,12 @@ for DIR in $DIRS
 do
   if [ -d "$DIR/.git" ]; then
     NAME="${DIR:7}"
-    echo "Mapping repo: $DIR/.git to: /etc/local-git-http/$NAME.git"
-    ln -sf $DIR/.git /etc/local-git-http/$NAME.git
+    echo "Mapping repo: $DIR/.git to: /etc/nginx/sites/$NAME.git"
+    ln -sf $DIR/.git /etc/nginx/sites/$NAME.git
   fi
 done
+
+HOME=/home/git
 
 /usr/bin/spawn-fcgi \
     -s $FCGISOCKET \
