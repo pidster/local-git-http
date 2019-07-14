@@ -36,7 +36,7 @@ do
   fi
 done
 
-HOME=/home/git
+export HOME=/home/git
 
 /usr/bin/spawn-fcgi \
     -s $FCGISOCKET \

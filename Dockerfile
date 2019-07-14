@@ -14,8 +14,8 @@ RUN set -x \
  && git config --system http.uploadpack true \
  && git config --system user.email "gitserver@localhost" \
  && git config --system user.name "Git Server" \
- && cp /etc/gitconfig /home/git/.gitconfig \
- && chown git:git /home/git/.gitconfig
+ && cp /etc/gitconfig /root/.gitconfig 
+# && chown git:git /home/root/.gitconfig
 
 #  && adduser -S nginx -G git \
 
