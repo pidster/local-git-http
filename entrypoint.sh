@@ -5,18 +5,16 @@
 set -o errexit
 
 echo "-----------------------------------------------------------------------"
-
 env
-
 echo "-----------------------------------------------------------------------"
 
 
 readonly FCGIPROGRAM="/usr/bin/fcgiwrap"
-#readonly GIT_PROJECT_ROOT="/etc/local-git-http"
+#readonly GIT_PROJECT_ROOT="/etc/nginx/sites"
 readonly GIT_HTTP_EXPORT_ALL="true"
 readonly GIT_USER="git"
 readonly GIT_GROUP="git"
-readonly FCGISOCKET="/var/run/fcgiwrap.socket"
+readonly FCGISOCKET="/var/run/fcgiwrap.sock"
 readonly SOCKUSERID="$USERID"
 readonly USERID="nginx"
 
@@ -26,15 +24,26 @@ if [ ! -d /repos ]; then
   exit 1
 fi
 
-DIRS=`ls -d -- /repos/*`
-for DIR in $DIRS
+DIRS=`find /repos -name '.git'`
+for GIT_DIR in $DIRS
 do
-  if [ -d "$DIR/.git" ]; then
-    NAME="${DIR:7}"
-    echo "Mapping repo: $DIR/.git to: /etc/nginx/sites/$NAME.git"
-    ln -sf $DIR/.git /etc/nginx/sites/$NAME.git
+  if [ -d "$GIT_DIR" ]; then
+    REPO_PATH="${GIT_DIR%/.git}"
+    REPO_NAME="${REPO_PATH#/repos/}"
+    
+    echo "Making parent directories: /etc/nginx/sites/$REPO_NAME"
+    mkdir -p /etc/nginx/sites/$REPO_NAME \
+    && rmdir /etc/nginx/sites/$REPO_NAME
+    
+    echo "Mapping repo $REPO_PATH to: /etc/nginx/sites/$REPO_NAME"
+    ln -sf $REPO_PATH /etc/nginx/sites/$REPO_NAME
+    
+    echo "Mapping repo $GIT_DIR to: /etc/nginx/sites/$REPO_NAME.git"
+    ln -sf $GIT_DIR /etc/nginx/sites/$REPO_NAME.git
   fi
 done
+
+chown nginx:git /etc/nginx/sites
 
 export HOME=/home/git
 

@@ -20,6 +20,6 @@ RUN set -x \
 #  && adduser -S nginx -G git \
 
 COPY etc /etc/nginx
-COPY launch.sh /usr/bin/launch
+COPY entrypoint.sh /usr/bin/entrypoint
 
-ENTRYPOINT [ "launch" ]
+ENTRYPOINT [ "entrypoint" ]
