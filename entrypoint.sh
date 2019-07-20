@@ -24,7 +24,7 @@ if [ ! -d /repos ]; then
   exit 1
 fi
 
-DIRS=`find /repos -name '.git'`
+DIRS=`find /repos -maxdepth 3 -type d -name '.git'`
 for GIT_DIR in $DIRS
 do
   if [ -d "$GIT_DIR" ]; then
