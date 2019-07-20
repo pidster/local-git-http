@@ -7,7 +7,7 @@ services:
     volumes:
       - ${REPO_DIR}:/repos:ro
     ports:
-      - 8081:8081
+      - 8081:80
   
   concourse-db:
     image: postgres
